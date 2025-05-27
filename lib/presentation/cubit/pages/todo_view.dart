@@ -15,6 +15,7 @@ class _TodoViewState extends State<TodoView> {
     final textcontroller = TextEditingController();
     final cubit = context.read<TodoCubit>();
 
+
     showDialog(
       context: context,
       builder:
@@ -27,17 +28,19 @@ class _TodoViewState extends State<TodoView> {
                 ),
               ),
             ),
+
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context),
                 child: Text("Cancel"),
               ),
-              IconButton(
+              TextButton(
                 onPressed: () {
                   cubit.addTodo(textcontroller.text);
                   Navigator.pop(context);
                 },
-                icon: Icon(Icons.add),
+                child: Text("Add"),
+
               ),
             ],
           ),
@@ -46,29 +49,30 @@ class _TodoViewState extends State<TodoView> {
 
   @override
   Widget build(BuildContext context) {
-    final myCubit = context.read<TodoCubit>();
+    final cubit = context.read<TodoCubit>();
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () => showAddDialog(context),
-        child: Icon(Icons.arrow_back),
+        child: Icon(Icons.add),
       ),
-      backgroundColor: Colors.green,
+      backgroundColor: Colors.grey,
       body: BlocBuilder<TodoCubit, List<Todo>>(
-        builder: (context, todosi) {
+        builder: (context, todos) {
           return ListView.builder(
-            itemCount: todosi.length,
+            itemCount: todos.length,
             itemBuilder: (context, index) {
-              final todo = todosi[index];
+              final todo = todos[index];
 
               return ListTile(
-                title: Text(todo.text, style: TextStyle(color: Colors.grey)),
+                title: Text(todo.text),
                 leading: Checkbox(
                   value: todo.isCompleted,
-                  onChanged: (value) => myCubit.toggleCompletion(todo),
+                  onChanged: (value) => cubit.toggleCompletion(todo),
                 ),
                 trailing: IconButton(
-                  onPressed: () => myCubit.deleteTodo(todo),
-                  icon: Icon(Icons.cancel),
+                  onPressed: () => cubit.deleteTodo(todo),
+                  icon: Icon(Icons.delete),
+
                 ),
               );
             },
