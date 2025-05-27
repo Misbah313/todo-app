@@ -12,14 +12,23 @@ class TodoView extends StatefulWidget {
 
 class _TodoViewState extends State<TodoView> {
   void showAddDialog(BuildContext context) {
-    final cubit = context.read<TodoCubit>();
     final textcontroller = TextEditingController();
+    final cubit = context.read<TodoCubit>();
+
 
     showDialog(
       context: context,
       builder:
           (context) => AlertDialog(
-            content: TextField(controller: textcontroller),
+            content: TextField(
+              controller: textcontroller,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey),
+                ),
+              ),
+            ),
+
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context),
@@ -31,6 +40,7 @@ class _TodoViewState extends State<TodoView> {
                   Navigator.pop(context);
                 },
                 child: Text("Add"),
+
               ),
             ],
           ),
@@ -62,6 +72,7 @@ class _TodoViewState extends State<TodoView> {
                 trailing: IconButton(
                   onPressed: () => cubit.deleteTodo(todo),
                   icon: Icon(Icons.delete),
+
                 ),
               );
             },
