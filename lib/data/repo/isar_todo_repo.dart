@@ -10,7 +10,7 @@ class IsarTodoRepo implements TodoRepo{
 
   // get the list of todos
   @override
-  Future<List<Todo>> getTodos(Todo todo) async {
+  Future<List<Todo>> getTodos() async {
     // fectch from db
     final todos = await db.isarTodos.where().findAll();
 
