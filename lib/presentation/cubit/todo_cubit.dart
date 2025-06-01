@@ -41,4 +41,10 @@ class TodoCubit extends Cubit<List<Todo>>{
    loadTodos();
   }
 
+  // E D I T
+  Future<void> updatedTodo(Todo todo) async{
+    await todoRepo.editTodo(todo);
+
+    loadTodos();
+  }
 }
