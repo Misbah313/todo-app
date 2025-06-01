@@ -40,7 +40,33 @@ class _TodoViewState extends State<TodoView> {
                   Navigator.pop(context);
                 },
                 child: Text("Add"),
+              ),
+            ],
+          ),
+    );
+  }
 
+  void editTodoDialog(BuildContext context) {
+    final cubit = context.read<TodoCubit>();
+    final textController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder:
+          (context) => AlertDialog(
+            content: TextField(controller: textController),
+
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text("Cancel"),
+              ),
+              TextButton(
+                onPressed: () {
+                   cubit.updatedTodo(textController.text as Todo);
+                  Navigator.pop(context);
+                },
+                child: Text("Add"),
               ),
             ],
           ),
@@ -70,10 +96,10 @@ class _TodoViewState extends State<TodoView> {
                   onChanged: (value) => cubit.toggleCompletion(todo),
                 ),
                 trailing: IconButton(
-                  onPressed: () => cubit.deleteTodo(todo),
-                  icon: Icon(Icons.delete),
-
+                  onPressed: () => editTodoDialog(context),
+                  icon: Icon(Icons.edit)
                 ),
+
               );
             },
           );
